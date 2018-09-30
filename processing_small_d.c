@@ -10,12 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_printf.h"
 
 void	processing_d(t_arg *arg, va_list *ap)
 {
 	d_processing_type(arg, ap);
+	if (arg->d_content == 0 && arg->width != 0 && arg->precision == 0 && !(arg->bitmap & ZERO))
+		arg->content = ft_strdup(" ");
+	else if (arg->d_content == 0 && arg->bitmap & PRECISION && arg->precision == 0)
+		arg->content = ft_strdup("");
+	else if (arg->d_content == 0 && arg->bitmap & ZERO && arg->bitmap & WIDTH && (arg->bitmap & PLUS || arg->bitmap & MINUS || arg->bitmap & SPACE))
+		arg->content = ft_strdup("0");
 	d_processing_precision(arg);
 	d_processing_flags(arg);
 	d_processing_width(arg);
@@ -37,7 +42,7 @@ void	d_processing_type(t_arg *arg, va_list *ap)
 		arg->d_content = va_arg(*ap, long);
 	else
 		arg->d_content = va_arg(*ap, int);
-	arg->content = ft_itoa_ll(arg->d_content);// нужен itoa для long long
+	arg->content = ft_itoa_ll(arg->d_content);
 	arg->content_len = ft_strlen(arg->content);
 }
 

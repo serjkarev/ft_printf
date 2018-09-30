@@ -12,35 +12,96 @@
 
 #include "ft_printf.h"
 
-void    processing_S(t_arg *arg, va_list *ap)
+void	processing_b_s(t_arg *arg, va_list *ap)
 {
-	// unsigned long	buf;
-	wchar_t		s1;
-	wchar_t		s2;
+	int		i;
+	int		*buf;
 
-	setlocale(LC_ALL, "");
-	s1 = va_arg(*ap, wchar_t);
-	// printf("buf_bef = %lu\n", buf);
-	s1 = s1 << 16;
-	s2 = va_arg(*ap, wchar_t);
-	s2 = s2 >> 16;
-	printf("s1 = %d\n", s1);
-	printf("s2 = %d\n", s2);
-	// printf("buf = %lu\n", buf);
-
+	i = 0;
+	if (!(buf = va_arg(*ap, int*)))
+	{
+		write(1, "(null)", 6);
+		arg->content_len += 6;
+	}
+	else if (!(arg->bitmap & PRECISION))
+	{
+		while (buf[i])
+		{
+			arg->d_content += count_bytes(buf[i]);
+			i++;
+		}
+		s_big_processing_width(arg);
+		//S_processing_precision(arg, buf);
+		s_big_processing_flags(arg, buf);
+	}
 }
 
-// void    S_processing_type(t_arg *arg, va_list *ap)
-// {
+void	s_big_processing_width(t_arg *arg)
+{
+	int		i;
+	int		len;
+	char	*buf;
 
-// }
+	i = 0;
+	len = arg->width - arg->d_content;
+	buf = (char*)malloc(sizeof(char));
+	if (arg->bitmap & WIDTH)
+	{
+		if (arg->bitmap & ZERO)
+		{
+			while (len)
+			{
+				buf[i] = '0';
+				i++;
+				len -= 1;
+			}
+		}
+		else
+		{
+			while (len)
+			{
+				buf[i] = ' ';
+				i++;
+				len -= 1;
+			}
+		}
+		arg->content = ft_strdup(buf);
+		arg->content_len = i;
+		free(buf);
+	}
+}
 
-// void	S_processing_precision(t_arg *arg)
-// {
+void	s_big_processing_flags(t_arg *arg, int *buf)
+{
+	if (arg->bitmap & MINUS)
+	{
+		print_unicode(arg, buf);
+		ft_putstr(arg->content);
+	}
+	else
+	{
+		ft_putstr(arg->content);
+		print_unicode(arg, buf);
+	}
+}
 
-// }
+void	print_unicode(t_arg *arg, int *buf)
+{
+	int		i;
+	int		byte;
 
-// void	S_processing_width(t_arg *arg)
-// {
-
-// }
+	i = 0;
+	byte = 0;
+	if (buf)
+	{
+		while (buf[i])
+		{
+			byte = count_bytes(buf[i]);
+			print_bytes(byte, buf[i]);
+			arg->content_len += byte;
+			i += 1;
+		}
+	}
+	else
+		arg->content_len = write(1, "(null)", 6);
+}

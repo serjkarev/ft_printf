@@ -80,7 +80,6 @@ SOURCES = ft_atoi.c \
 			ft_nbrlen_ll.c \
 			ft_itoa_u.c \
 			ft_itoa_base_ull.c \
-			ft_itoa_base.c \
 			ft_itoa_base_ull_big.c
 
 OBJECTS = ft_atoi.o \
@@ -150,7 +149,6 @@ OBJECTS = ft_atoi.o \
 			ft_nbrlen_ll.o \
 			ft_itoa_u.o \
 			ft_itoa_base_ull.o \
-			ft_itoa_base.o \
 			ft_itoa_base_ull_big.o
 
 $(NAME):

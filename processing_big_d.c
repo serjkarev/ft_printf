@@ -12,22 +12,22 @@
 
 #include "ft_printf.h"
 
-void    processing_D(t_arg *arg, va_list *ap)
+void	processing_b_d(t_arg *arg, va_list *ap)
 {
-	D_processing_type(arg, ap);
-	D_processing_precision(arg);
-	D_processing_flags(arg);
-	D_processing_width(arg);
+	d_big_processing_type(arg, ap);
+	d_big_processing_precision(arg);
+	d_big_processing_flags(arg);
+	d_big_processing_width(arg);
 }
 
-void	D_processing_type(t_arg *arg, va_list *ap)
+void	d_big_processing_type(t_arg *arg, va_list *ap)
 {
-    arg->d_content = va_arg(*ap, long);
-    arg->content = ft_itoa_ll(arg->d_content);
-    arg->content_len = ft_strlen(arg->content);
+	arg->d_content = va_arg(*ap, long);
+	arg->content = ft_itoa_ll(arg->d_content);
+	arg->content_len = ft_strlen(arg->content);
 }
 
-void	D_processing_precision(t_arg *arg)
+void	d_big_processing_precision(t_arg *arg)
 {
 	if (arg->d_content < 0)
 		negative_content(arg);
@@ -35,7 +35,7 @@ void	D_processing_precision(t_arg *arg)
 		positive_content(arg);
 }
 
-void	D_processing_flags(t_arg *arg)
+void	d_big_processing_flags(t_arg *arg)
 {
 	char	*buf;
 
@@ -62,7 +62,7 @@ void	D_processing_flags(t_arg *arg)
 	}
 }
 
-void	D_processing_width(t_arg *arg)
+void	d_big_processing_width(t_arg *arg)
 {
 	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
 	{

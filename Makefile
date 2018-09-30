@@ -27,7 +27,12 @@ SRCS = ft_printf.c \
 		processing_p.c \
 		processing_big_d.c \
 		processing_i.c \
-		processing_big_s.c
+		processing_big_s.c \
+		processing_big_x.c \
+		processing_big_u.c \
+		processing_big_o.c \
+		processing_big_c.c \
+		proces_inv_conv_spec.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -98,7 +103,6 @@ LIB_OBJS = ./libft/ft_atoi.o \
 			./libft/ft_nbrlen_ll.o \
 			./libft/ft_itoa_u.o \
 			./libft/ft_itoa_base_ull.o \
-			./libft/ft_itoa_base.o \
 			./libft/ft_itoa_base_ull_big.o 
 
 LIBS = ./libft/libft.a

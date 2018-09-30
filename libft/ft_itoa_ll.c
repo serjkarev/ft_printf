@@ -12,14 +12,14 @@
 
 #include "libft.h"
 
-char        *ft_itoa_ll(long long n)
+char	*ft_itoa_ll(long long n)
 {
 	long long	i;
-	long long   n_size;
-	char	*str;
+	long long	n_size;
+	char		*str;
 
 	i = 0;
-	if (n < -9223372036854775807)//какой тут взять предел????????????
+	if (n < -9223372036854775807)
 		return (ft_strjoin("-","9223372036854775808"));//КОСТЫЫЫЛЬ
 	n_size = ft_nbrlen_ll(n);
 	str = (char *)malloc(sizeof(char) * (n_size + 1));

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void    processing_i(t_arg *arg, va_list *ap)
+void	processing_i(t_arg *arg, va_list *ap)
 {
 	i_processing_type(arg, ap);
 	i_processing_precision(arg);
@@ -22,7 +22,7 @@ void    processing_i(t_arg *arg, va_list *ap)
 
 void	i_processing_type(t_arg *arg, va_list *ap)
 {
-    if (arg->bitmap & L)
+	if (arg->bitmap & L)
 		arg->d_content = va_arg(*ap, long);
 	else if (arg->bitmap & LL)
 		arg->d_content = va_arg(*ap, long long);
@@ -36,13 +36,16 @@ void	i_processing_type(t_arg *arg, va_list *ap)
 		arg->d_content = va_arg(*ap, long);
 	else
 		arg->d_content = va_arg(*ap, int);
-	arg->content = ft_itoa_ll(arg->d_content);
+	if (arg->d_content == 0 && arg->precision == 0 && arg->bitmap & PRECISION)
+		arg->content = ft_strdup("");
+	else
+		arg->content = ft_itoa_ll(arg->d_content);
 	arg->content_len = ft_strlen(arg->content);
 }
 
 void	i_processing_precision(t_arg *arg)
 {
-    if (arg->d_content < 0)
+	if (arg->d_content < 0)
 		negative_content(arg);
 	else
 		positive_content(arg);

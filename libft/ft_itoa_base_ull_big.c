@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char    *ft_itoa_base_ull_big(unsigned long long value, unsigned int base)
+char	*ft_itoa_base_ull_big(unsigned long long value, unsigned int base)
 {
 	char				*str;
 	unsigned long long	size;
@@ -27,13 +27,13 @@ char    *ft_itoa_base_ull_big(unsigned long long value, unsigned int base)
 	while (tmp /= base)
 		size++;
 	size = size + 1;
-	str = (char *)malloc(sizeof(char) * size  + 1);
+	str = (char *)malloc(sizeof(char) * size + 1);
 	str[size] = '\0';
 	while (size > 0)
 	{
 		str[size - 1] = tab[value % base];
 		size--;
-		value /=base;
+		value /= base;
 	}
 	return (str);
 }
