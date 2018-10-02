@@ -26,6 +26,8 @@ void	zero_width_mod(t_arg *arg)
 {
 	long long	i;
 	char		*buf;
+	char		*tmp;
+	char		*tmp2;
 
 	buf = ft_strnew(arg->width);
 	buf[0] = arg->content[0];
@@ -36,11 +38,15 @@ void	zero_width_mod(t_arg *arg)
 		buf[i] = '0';
 		i++;
 	}
-	buf = ft_strjoin(buf, \
-	ft_strsub(arg->content, arg->content_len - 2, arg->content_len - 2));
+	tmp = ft_strsub(arg->content, arg->content_len - 2, arg->content_len - 2);
+	tmp2 = ft_strdup(buf);
+	free(buf);
+	buf = ft_strjoin(tmp2, tmp);
 	free(arg->content);
 	arg->content = ft_strdup(buf);
 	free(buf);
+	free(tmp);
+	free(tmp2);
 }
 
 void	minus_width_mod(t_arg *arg)
@@ -48,6 +54,7 @@ void	minus_width_mod(t_arg *arg)
 	int		i;
 	int		len;
 	char	*buf;
+	char	*tmp;
 
 	i = 0;
 	len = arg->width - 1;
@@ -57,8 +64,11 @@ void	minus_width_mod(t_arg *arg)
 		buf[i] = ' ';
 		i += 1;
 	}
-	arg->content = ft_strjoin(arg->content, buf);
+	tmp = ft_strdup(arg->content);
+	free(arg->content);
+	arg->content = ft_strjoin(tmp, buf);
 	free(buf);
+	free(tmp);
 }
 
 void	only_width_mod(t_arg *arg)
@@ -66,6 +76,7 @@ void	only_width_mod(t_arg *arg)
 	int		i;
 	int		len;
 	char	*buf;
+	char	*tmp;
 
 	i = 0;
 	len = arg->width - 1;
@@ -75,8 +86,11 @@ void	only_width_mod(t_arg *arg)
 		buf[i] = ' ';
 		i += 1;
 	}
-	arg->content = ft_strjoin(buf, arg->content);
+	tmp = ft_strdup(arg->content);
+	free(arg->content);
+	arg->content = ft_strjoin(buf, tmp);
 	free(buf);
+	free(tmp);
 }
 
 void	free_struct(t_arg *arg)

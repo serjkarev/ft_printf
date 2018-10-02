@@ -20,6 +20,7 @@ int		ft_printf(const char *format, ...)
 	va_start(ap, format);
 	byte = start_parce(&ap, format);
 	va_end(ap);
+	// system("leaks -q a.out");
 	return (byte);
 }
 
@@ -84,17 +85,20 @@ int		fill_arg(int *i, const char *format, t_arg *arg, va_list *ap)
 	available_type = parce_type(i, arg, format);
 	if (available_type == 1)
 	{
+		wildcard_processing(arg);
 		type_processing(arg, ap);
-		if (arg->bitmap & BIG_C || arg->bitmap & BIG_S || \
-			(arg->bitmap & SMALL_C && arg->bitmap & L) || \
-			(arg->bitmap & SMALL_S && arg->bitmap & L))
+	}
+	if (arg->bitmap & BIG_C || arg->bitmap & BIG_S || \
+				(arg->bitmap & SMALL_C && arg->bitmap & L) || \
+				(arg->bitmap & SMALL_S && arg->bitmap & L))
+		return (arg->content_len);
+	else
+	{
+		if (arg->bitmap & JOPA)
 			return (arg->content_len);
 		else
 			return (write(1, arg->content, arg->content_len));
 	}
-	else if (available_type == 2)
-		invalid_conversion_specifier(arg);
-	return (arg->content_len);
 }
 
 void	type_processing(t_arg *arg, va_list *ap)
@@ -123,6 +127,6 @@ void	type_processing(t_arg *arg, va_list *ap)
 	}
 	else if (arg->bitmap & P || arg->bitmap & I)
 		arg->bitmap & P ? processing_p(arg, ap) : processing_i(arg, ap);
-	else if (arg->bitmap & PERCENT)
-		processing_percent(arg);
+	else if (arg->bitmap & PERCENT || arg->bitmap & BINARY)
+		arg->bitmap & PERCENT ? processing_percent(arg) : proc_binary(arg, ap);
 }

@@ -32,11 +32,12 @@ void	c_processing_type(t_arg *arg, va_list *ap)
 	buf[0] = c;
 	arg->content = ft_strdup(buf);
 	arg->content_len = ft_strlen(arg->content);
+	free(buf);
 }
 
 void	c_processing_width(t_arg *arg)
 {
-	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
+	if ((arg->width > arg->content_len) && arg->width)
 	{        
 		if (arg->bitmap & MINUS)
 			minus_width_mod(arg);

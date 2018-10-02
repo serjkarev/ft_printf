@@ -12,7 +12,7 @@
 
 NAME = libftprintf.a
 
-CFLAG = -c -Wall -Wextra 
+CFLAG = -c -Wall -Wextra -Werror -g
 
 SRCS = ft_printf.c \
 		parce_particles.c \
@@ -32,7 +32,8 @@ SRCS = ft_printf.c \
 		processing_big_u.c \
 		processing_big_o.c \
 		processing_big_c.c \
-		proces_inv_conv_spec.c
+		proces_inv_conv_spec.c \
+		wildcard_processing.c
 
 OBJS = $(SRCS:.c=.o)
 

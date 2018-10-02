@@ -110,18 +110,15 @@ int		parce_type(int *i, t_arg *arg, const char *format)
 	else if (format[*i] == 'c' || format[*i] == 'C')
 		format[*i] == 'c' ? (arg->bitmap = arg->bitmap | SMALL_C) : \
 							(arg->bitmap = arg->bitmap | BIG_C);
-	else if (format[*i] == '%')
-		arg->bitmap = arg->bitmap | PERCENT;
-	else if (ft_isalpha(format[*i]) && !ft_isalpha(format[*i + 1]) \
-											&& arg->bitmap & WIDTH)
-	{
-		arg->content_char = format[*i];
-		*i += 1;
-		arg->i = (int)*i;
-		return (2);
-	}
+	else if (format[*i] == '%' || format[*i] == 'b')
+		format[*i] == '%' ? (arg->bitmap = arg->bitmap | PERCENT) : \
+							(arg->bitmap = arg->bitmap | BINARY);
 	else
+	{
+		if (arg->bitmap & WIDTH)
+			invalid_conversion_specifier(arg, format, i);
 		return (0);
+	}
 	*i += 1;
 	arg->i = (int)*i;
 	return(1);

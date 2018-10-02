@@ -23,7 +23,6 @@ void	s_processing_type(t_arg *arg, va_list *ap)
 {
 	char	*buf;
 
-	buf = ft_strnew(1);
 	buf = va_arg(*ap, char*);
 	if (buf == NULL)
 		arg->content = ft_strdup("(null)");
@@ -36,6 +35,7 @@ void	s_processing_precision(t_arg *arg)
 {
 	if (arg->bitmap & PRECISION)
 	{
+		free(arg->content);
 		arg->content = ft_strsub(arg->content, 0, arg->precision);
 		arg->content_len = ft_strlen(arg->content);
 	}
@@ -43,10 +43,12 @@ void	s_processing_precision(t_arg *arg)
 
 void	s_processing_width(t_arg *arg)
 {
-	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
+	if ((arg->width > arg->content_len) && arg->width)
 	{
 		if (arg->bitmap & MINUS)
 			minus_width(arg);
+		else if (arg->bitmap & ZERO && arg->width)
+			zero_width(arg);
 		else
 			only_width(arg);
 		arg->content_len = ft_strlen(arg->content);

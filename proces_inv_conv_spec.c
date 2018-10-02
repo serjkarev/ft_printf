@@ -12,55 +12,31 @@
 
 #include "ft_printf.h"
 
-void	invalid_conversion_specifier(t_arg *arg)
+void	invalid_conversion_specifier(t_arg *arg, const char *format, int *i)
 {
-	ics_processing_width(arg);
-}
-
-void	ics_processing_width(t_arg *arg)
-{
-	int		i;
-	int		len;
-	char	*buf;
-
-	i = 0;
-	len = arg->width - 1;
-	buf = (char*)malloc(sizeof(char));
-	if (arg->bitmap & WIDTH)
-	{
-		if (arg->bitmap & ZERO)
-		{
-			while (len)
-			{
-				buf[i] = '0';
-				i++;
-				len -= 1;
-			}
-		}
-		else
-		{
-			while (len)
-			{
-				buf[i] = ' ';
-				i++;
-				len -= 1;
-			}
-		}
-		ics_processing_flags(arg, buf);
-	}
-}
-
-void	ics_processing_flags(t_arg *arg, char *buf)
-{
+	arg->bitmap = arg->bitmap | JOPA;
+	arg->content_len = arg->width;
+	arg->width -= 1;
 	if (arg->bitmap & MINUS)
 	{
-		write(1, &arg->content_char, 1);
-		write(1, buf, arg->width);
+		write(1, &format[*i], 1);
+		while(arg->width--)
+			write(1, " ", 1);
 	}
 	else
 	{
-		write(1, buf, arg->width);
-		write(1, &arg->content_char, 1);
+		if (arg->bitmap & ZERO)
+		{
+			while(arg->width--)
+				write(1, "0", 1);
+		}
+		else
+		{
+			while(arg->width--)
+				write(1, " ", 1);
+		}
+		write(1, &format[*i], 1);
 	}
-	arg->content_len = ft_strlen(buf) + 1;
+	*i += 1;
+	arg->i = (int)*i;
 }

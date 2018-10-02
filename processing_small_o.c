@@ -16,9 +16,15 @@ void	processing_o(t_arg *arg, va_list *ap)
 {
 	o_processing_type(arg, ap);
 	if (arg->x_content == 0 && arg->width != 0 && arg->precision == 0)
+	{
+		free(arg->content);
 		arg->content = ft_strdup(" ");
+	}
 	else if (arg->x_content == 0 && arg->bitmap & PRECISION && arg->precision == 0)
+	{
+		free(arg->content);
 		arg->content = ft_strdup("");
+	}
 	o_processing_precision(arg);
 	o_processing_flags(arg);
 	o_processing_width(arg);
@@ -50,6 +56,8 @@ void	o_processing_precision(t_arg *arg)
 	int		len;
 	int		precision;
 	char	*buf;
+	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
 	if (arg->precision != 0)
@@ -63,19 +71,48 @@ void	o_processing_precision(t_arg *arg)
 			i++;
 			precision -= 1;
 		}
-		buf = ft_strjoin(buf, ft_strsub(arg->content, 0, arg->content_len));
+		tmp = ft_strsub(arg->content, 0, arg->content_len);
+		tmp2 = ft_strdup(buf);
+		free(buf);
+		buf = ft_strjoin(tmp2, tmp);
 		free(arg->content);
 		arg->content = ft_strdup(buf);
 		arg->content_len = ft_strlen(arg->content);
 		free(buf);
+		free(tmp);
+		free(tmp2);
 	}
 	else if (arg->x_content == 0 && arg->bitmap & PRECISION && arg->precision == 0 && arg->bitmap & HESH)
+	{
+		free(arg->content);
 		arg->content = ft_strdup("0");
+	}
+}
+
+void	o_processing_flags(t_arg *arg)
+{
+	char	*buf;
+
+	if (arg->bitmap & HESH && arg->x_content != 0 && arg->precision == 0)
+	{
+		buf = ft_strdup(arg->content);
+		free(arg->content);
+		arg->content = ft_strjoin("0", buf);
+		free(buf);
+	}
+	else if (arg->bitmap & HESH && arg->bitmap & WIDTH && !(arg->bitmap & PRECISION))
+	{
+		buf = ft_strdup(arg->content);
+		free(arg->content);
+		arg->content = ft_strjoin(" ", buf);
+		free(buf);
+	}
+	arg->content_len = ft_strlen(arg->content);
 }
 
 void	o_processing_width(t_arg *arg)
 {
-	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
+	if ((arg->width > arg->content_len) && arg->width)
 	{
 		if (arg->bitmap & MINUS)
 			minus_width(arg);
@@ -84,14 +121,5 @@ void	o_processing_width(t_arg *arg)
 		else
 			only_width(arg);	
 	}
-	arg->content_len = ft_strlen(arg->content);
-}
-
-void	o_processing_flags(t_arg *arg)
-{
-	if (arg->bitmap & HESH && arg->x_content != 0 && arg->precision == 0)
-		arg->content = ft_strjoin("0", arg->content);
-	else if (arg->bitmap & HESH && arg->bitmap & WIDTH && !(arg->bitmap & PRECISION))
-		arg->content = ft_strjoin(" ", arg->content);
 	arg->content_len = ft_strlen(arg->content);
 }

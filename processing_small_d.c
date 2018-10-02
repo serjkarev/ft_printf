@@ -16,11 +16,20 @@ void	processing_d(t_arg *arg, va_list *ap)
 {
 	d_processing_type(arg, ap);
 	if (arg->d_content == 0 && arg->width != 0 && arg->precision == 0 && !(arg->bitmap & ZERO))
+	{
+		free(arg->content);
 		arg->content = ft_strdup(" ");
+	}
 	else if (arg->d_content == 0 && arg->bitmap & PRECISION && arg->precision == 0)
+	{
+		free(arg->content);
 		arg->content = ft_strdup("");
+	}
 	else if (arg->d_content == 0 && arg->bitmap & ZERO && arg->bitmap & WIDTH && (arg->bitmap & PLUS || arg->bitmap & MINUS || arg->bitmap & SPACE))
+	{
+		free(arg->content);
 		arg->content = ft_strdup("0");
+	}
 	d_processing_precision(arg);
 	d_processing_flags(arg);
 	d_processing_width(arg);
@@ -57,6 +66,7 @@ void	d_processing_precision(t_arg *arg)
 void	d_processing_flags(t_arg *arg)
 {
 	char	*buf;
+	char	*tmp = NULL;
 
 	if (arg->d_content >= 0)
 	{
@@ -64,7 +74,9 @@ void	d_processing_flags(t_arg *arg)
 		if (arg->bitmap & PLUS)
 		{
 			buf[0] = '+';
-			buf = ft_strjoin(buf, arg->content);
+			tmp = ft_strdup(buf);
+			free(buf);
+			buf = ft_strjoin(tmp, arg->content);
 			free(arg->content);
 			arg->content = ft_strdup(buf);
 			arg->content_len += 1;
@@ -72,18 +84,21 @@ void	d_processing_flags(t_arg *arg)
 		else if (arg->bitmap & SPACE)
 		{
 			buf[0] = ' ';
-			buf = ft_strjoin(buf, arg->content);
+			tmp = ft_strdup(buf);
+			free(buf);
+			buf = ft_strjoin(tmp, arg->content);
 			free(arg->content);
 			arg->content = ft_strdup(buf);
 			arg->content_len += 1;
 		}
 		free(buf);
+		free(tmp);
 	}
 }
 
 void	d_processing_width(t_arg *arg)
 {
-	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
+	if ((arg->width > arg->content_len) && arg->width)
 	{
 		if (arg->bitmap & MINUS)
 			minus_width(arg);

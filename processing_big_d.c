@@ -64,7 +64,7 @@ void	d_big_processing_flags(t_arg *arg)
 
 void	d_big_processing_width(t_arg *arg)
 {
-	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
+	if ((arg->width > arg->content_len) && arg->width)
 	{
 		if (arg->bitmap & MINUS)
 			minus_width(arg);

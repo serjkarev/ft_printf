@@ -27,7 +27,7 @@ void	percent_processing_type(t_arg *arg)
 	buf[0] = '%';
 	arg->content = ft_strdup(buf);
 	arg->content_len = ft_strlen(arg->content);
-	free(buf);
+	ft_strdel(&buf);
 }
 
 void	percent_processing_width(t_arg *arg)

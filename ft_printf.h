@@ -50,6 +50,8 @@
 # define BIG_X			0X40
 # define SMALL_C		0X20
 # define BIG_C			0X10
+# define JOPA			0X8
+# define BINARY			0X4
 
 typedef struct		s_arg
 {
@@ -75,6 +77,7 @@ void	parce_precision(int *i, t_arg *arg, const char *format, va_list *ap);
 void	parce_length(int *i, t_arg *arg, const char *format);
 int		parce_type(int *i, t_arg *arg, const char *format);
 void	type_processing(t_arg *arg, va_list *ap);
+void	wildcard_processing(t_arg *arg);
 
 void	processing_d(t_arg *arg, va_list *ap);
 void	d_processing_type(t_arg *arg, va_list *ap);
@@ -94,8 +97,6 @@ void	s_processing_width(t_arg *arg);
 
 void	processing_x(t_arg *arg, va_list *ap);
 void	x_processing_type(t_arg *arg, va_list *ap);
-void	x_processing_precision(t_arg *arg);
-void	x_processing_flags(t_arg *arg);
 void	x_processing_width(t_arg *arg);
 
 void	processing_o(t_arg *arg, va_list *ap);
@@ -115,8 +116,6 @@ void	percent_processing_width(t_arg *arg);
 void	percent_processing_flags(t_arg *arg);
 
 void	processing_p(t_arg *arg, va_list *ap);
-void	p_processing_precision(t_arg *arg);
-void	p_processing_flags(t_arg *arg);
 void	p_processing_width(t_arg *arg);
 
 void	processing_b_d(t_arg *arg, va_list *ap);
@@ -133,15 +132,12 @@ void	i_processing_width(t_arg *arg);
 
 void	processing_b_s(t_arg *arg, va_list *ap);
 void	s_big_processing_width(t_arg *arg);
-//void    S_processing_precision(t_arg *arg, int *buf);
+void    s_big_processing_precision(t_arg *arg);
 void	s_big_processing_flags(t_arg *arg, int *buf);
 void	print_unicode(t_arg *arg, int *buf);
 
 void	processing_b_x(t_arg *arg, va_list *ap);
 void	x_big_processing_type(t_arg *arg, va_list *ap);
-void	x_big_processing_precision(t_arg *arg);
-void	x_big_processing_flags(t_arg *arg);
-void	x_big_processing_width(t_arg *arg);
 
 void	processing_b_u(t_arg *arg, va_list *ap);
 void	u_big_processing_type(t_arg *arg, va_list *ap);
@@ -155,9 +151,9 @@ void	processing_C(t_arg *arg, va_list *ap);
 int		count_bytes(int num);
 void	print_bytes(int byte, wchar_t buf);
 
-void	invalid_conversion_specifier(t_arg *arg);
-void	ics_processing_width(t_arg *arg);
-void	ics_processing_flags(t_arg *arg, char *buf);
+void	invalid_conversion_specifier(t_arg *arg, const char *format, int *i);
+
+void	proc_binary(t_arg *arg, va_list *ap);
 
 ///////////////////DOP_1///////////////////////////////
 void	negative_content(t_arg *arg);

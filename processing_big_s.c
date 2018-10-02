@@ -31,9 +31,10 @@ void	processing_b_s(t_arg *arg, va_list *ap)
 			i++;
 		}
 		s_big_processing_width(arg);
-		//S_processing_precision(arg, buf);
 		s_big_processing_flags(arg, buf);
 	}
+	else
+		s_big_processing_precision(arg);
 }
 
 void	s_big_processing_width(t_arg *arg)
@@ -44,7 +45,7 @@ void	s_big_processing_width(t_arg *arg)
 
 	i = 0;
 	len = arg->width - arg->d_content;
-	buf = (char*)malloc(sizeof(char));
+	buf = ft_strnew(len);
 	if (arg->bitmap & WIDTH)
 	{
 		if (arg->bitmap & ZERO)
@@ -67,8 +68,8 @@ void	s_big_processing_width(t_arg *arg)
 		}
 		arg->content = ft_strdup(buf);
 		arg->content_len = i;
-		free(buf);
 	}
+	free(buf);
 }
 
 void	s_big_processing_flags(t_arg *arg, int *buf)
@@ -104,4 +105,13 @@ void	print_unicode(t_arg *arg, int *buf)
 	}
 	else
 		arg->content_len = write(1, "(null)", 6);
+}
+
+void    s_big_processing_precision(t_arg *arg)
+{
+	if (arg->bitmap & WIDTH && arg->precision == 0 && arg->bitmap & PRECISION)
+	{
+		s_big_processing_width(arg);
+		write(1, arg->content, arg->content_len);
+	}
 }

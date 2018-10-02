@@ -14,9 +14,18 @@
 
 void	processing_x(t_arg *arg, va_list *ap)
 {
+	char	*tmp;
+
 	x_processing_type(arg, ap);
-	x_processing_precision(arg);
-	x_processing_flags(arg);
+	positive_content(arg);
+	if (arg->bitmap & HESH && arg->x_content > 0)
+	{
+		tmp = ft_strdup(arg->content);
+		free(arg->content);
+		arg->content = ft_strjoin("0x", tmp);
+		arg->content_len += 2;
+		free(tmp);
+	}
 	x_processing_width(arg);
 }
 
@@ -43,23 +52,9 @@ void	x_processing_type(t_arg *arg, va_list *ap)
 	arg->content_len = ft_strlen(arg->content);
 }
 
-void	x_processing_precision(t_arg *arg)
-{
-	positive_content(arg);
-}
-
-void	x_processing_flags(t_arg *arg)
-{
-	if (arg->bitmap & HESH && arg->x_content > 0)
-	{
-		arg->content = ft_strjoin("0x", arg->content);
-		arg->content_len += 2;
-	}
-}
-
 void	x_processing_width(t_arg *arg)
 {
-	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
+	if ((arg->width > arg->content_len) && arg->width)
 	{
 		if (arg->bitmap & MINUS)
 			minus_width(arg);

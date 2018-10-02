@@ -18,6 +18,7 @@ void	negative_content(t_arg *arg)
 	int		len;
 	int		precision;
 	char	*buf;
+	char	*tmp;
 
 	i = 0;
 	if (arg->content_len > 0)
@@ -33,10 +34,11 @@ void	negative_content(t_arg *arg)
 			i++;
 			precision -= 1;
 		}
-		buf = ft_strjoin(buf, ft_strsub(arg->content, 1, arg->content_len - 1));
+		tmp = ft_strsub(arg->content, 1, arg->content_len - 1);
 		free(arg->content);
-		arg->content = ft_strdup(buf);
+		arg->content = ft_strjoin(buf, tmp);
 		arg->content_len = ft_strlen(arg->content);
+		free(tmp);
 		free(buf);
 	}
 }
@@ -47,27 +49,25 @@ void	positive_content(t_arg *arg)
 	int		len;
 	int		precision;
 	char	*buf;
-	// char	*tmp;
+	char	*tmp;
 
 	i = 0;
 	if (arg->content_len > 0)
 	{
 		len = arg->content_len;
 		precision = arg->precision;
-		buf = ft_strnew(len + precision);
+		buf = ft_strnew(len);
 		while (precision > len)
 		{
 			buf[i] = '0';
 			i++;
 			precision -= 1;
 		}
-		// tmp = ft_strsub(arg->content, 0, arg->content_len);
-		// buf = ft_strjoin(buf, tmp);
-		// free(tmp);
-		buf = ft_strjoin(buf, ft_strsub(arg->content, 0, arg->content_len));//ЛИК
+		tmp = ft_strsub(arg->content, 0, arg->content_len);
 		free(arg->content);
-		arg->content = ft_strdup(buf);
+		arg->content = ft_strjoin(buf, tmp);
 		arg->content_len = ft_strlen(arg->content);
+		free(tmp);
 		free(buf);
 	}
 }
@@ -76,6 +76,7 @@ void	minus_width(t_arg *arg)
 {
 	int		i;
 	char	*buf;
+	char	*tmp;
 
 	i = 0;
 	buf = ft_strnew(arg->width - arg->content_len);
@@ -84,9 +85,12 @@ void	minus_width(t_arg *arg)
 		buf[i] = ' ';
 		i++;
 	}
-	buf = ft_strjoin(arg->content, buf);
+	tmp = ft_strdup(buf);
+	free(buf);
+	buf = ft_strjoin(arg->content, tmp);
 	free(arg->content);
 	arg->content = ft_strdup(buf);
+	free(tmp);
 	free(buf);
 }
 
@@ -95,6 +99,8 @@ void	zero_width(t_arg *arg)
 	int		i;
 	int		len;
 	char	*buf;
+	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
 	len = arg->width - arg->content_len;
@@ -110,27 +116,48 @@ void	zero_width(t_arg *arg)
 	while (i < len)
 		buf[i++] = '0';
 	if (buf[0] == '-' || buf[0] == '+')
-		buf = ft_strjoin(buf, ft_strsub(arg->content, 1, arg->content_len - 1));
+	{
+		tmp = ft_strdup(buf);
+		free(buf);
+		tmp2 = ft_strsub(arg->content, 1, arg->content_len - 1);
+		buf = ft_strjoin(tmp, tmp2);
+		free(tmp2);
+	}
 	else if (arg->bitmap & SPACE)
-		buf = ft_strjoin(arg->content, buf);
+	{
+		tmp = ft_strdup(buf);
+		free(buf);
+		buf = ft_strjoin(arg->content, tmp);
+	}
 	else
-		buf = ft_strjoin(buf, arg->content);
+	{
+		tmp = ft_strdup(buf);
+		free(buf);
+		buf = ft_strjoin(tmp, arg->content);
+	}
 	free(arg->content);
 	arg->content = ft_strdup(buf);
 	free(buf);
+	free(tmp);
 }
 
 void	only_width(t_arg *arg)
 {
 	int		i;
 	char	*buf;
+	char	*tmp;
 
 	i = 0;
 	buf = ft_strnew(arg->width - arg->content_len);
 	while (i < arg->width - arg->content_len)
 		buf[i++] = ' ';
 	if (arg->non_valid != 228)//ОПА ПАСХАЛОЧКА
-		buf = ft_strjoin(buf, arg->content);
+	{
+		tmp = ft_strdup(buf);
+		free(buf);
+		buf = ft_strjoin(tmp, arg->content);
+		free(tmp);
+	}
 	free(arg->content);
 	arg->content = ft_strdup(buf);
 	free(buf);

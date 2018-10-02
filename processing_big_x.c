@@ -14,10 +14,19 @@
 
 void	processing_b_x(t_arg *arg, va_list *ap)
 {
+	char	*buf;
+
 	x_big_processing_type(arg, ap);
-	x_big_processing_precision(arg);
-	x_big_processing_flags(arg);
-	x_big_processing_width(arg);
+	positive_content(arg);
+	if (arg->bitmap & HESH && arg->x_content > 0)
+	{
+		buf = ft_strdup(arg->content);
+		free(arg->content);
+		arg->content = ft_strjoin("0X", buf);
+		arg->content_len += 2;
+		free(buf);
+	}
+	x_processing_width(arg);
 }
 
 void	x_big_processing_type(t_arg *arg, va_list *ap)
@@ -41,23 +50,4 @@ void	x_big_processing_type(t_arg *arg, va_list *ap)
 	else
 		arg->content = ft_itoa_base_ull_big(arg->x_content, 16);
 	arg->content_len = ft_strlen(arg->content);	
-}
-
-void	x_big_processing_precision(t_arg *arg)
-{
-	positive_content(arg);
-}
-
-void	x_big_processing_flags(t_arg *arg)
-{
-	if (arg->bitmap & HESH && arg->x_content > 0)
-	{
-		arg->content = ft_strjoin("0X", arg->content);
-		arg->content_len += 2;
-	}
-}
-
-void	x_big_processing_width(t_arg *arg)
-{
-	x_processing_width(arg);
 }
