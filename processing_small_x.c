@@ -58,9 +58,11 @@ void	x_processing_width(t_arg *arg)
 	{
 		if (arg->bitmap & MINUS)
 			minus_width(arg);
-		else if ((arg->bitmap & ZERO) && !(arg->bitmap & PRECISION) && !(arg->bitmap & HESH))
+		else if ((arg->bitmap & ZERO) && !(arg->bitmap & PRECISION) && \
+													!(arg->bitmap & HESH))
 			zero_width(arg);
-		else if ((arg->bitmap & ZERO) && !(arg->bitmap & PRECISION) && (arg->bitmap & HESH))
+		else if ((arg->bitmap & ZERO) && !(arg->bitmap & PRECISION) && \
+														(arg->bitmap & HESH))
 			zero_width_mod(arg);
 		else
 			only_width(arg);

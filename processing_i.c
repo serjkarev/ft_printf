@@ -58,10 +58,9 @@ void	i_processing_flags(t_arg *arg)
 
 	if (arg->d_content >= 0)
 	{
-		buf = ft_strnew(arg->content_len + 1);
 		if (arg->bitmap & PLUS)
 		{
-			buf[0] = '+';
+			buf = "+";
 			tmp = ft_strjoin(buf, arg->content);
 			free(arg->content);
 			arg->content = ft_strdup(tmp);
@@ -70,14 +69,13 @@ void	i_processing_flags(t_arg *arg)
 		}
 		else if (arg->bitmap & SPACE)
 		{
-			buf[0] = ' ';
+			buf = " ";
 			tmp = ft_strjoin(buf, arg->content);
 			free(arg->content);
 			arg->content = ft_strdup(tmp);
 			arg->content_len += 1;
 			free(tmp);
 		}
-		free(buf);
 	}
 }
 

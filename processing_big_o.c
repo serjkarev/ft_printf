@@ -12,27 +12,28 @@
 
 #include "ft_printf.h"
 
-void    processing_b_o(t_arg *arg, va_list *ap)
+void	processing_b_o(t_arg *arg, va_list *ap)
 {
-    o_big_processing_type(arg, ap);
-    if (arg->x_content == 0 && arg->width != 0 && arg->precision == 0)
+	o_big_processing_type(arg, ap);
+	if (arg->x_content == 0 && arg->width != 0 && arg->precision == 0)
 	{
 		free(arg->content);
 		arg->content = ft_strdup(" ");
 	}
-	else if (arg->x_content == 0 && arg->bitmap & PRECISION && arg->precision == 0)
+	else if (arg->x_content == 0 && arg->bitmap & PRECISION && \
+													arg->precision == 0)
 	{
 		free(arg->content);
 		arg->content = ft_strdup("");
 	}
-    o_processing_precision(arg);
+	o_processing_precision(arg);
 	o_processing_flags(arg);
 	o_processing_width(arg);
 }
 
-void    o_big_processing_type(t_arg *arg, va_list *ap)
+void	o_big_processing_type(t_arg *arg, va_list *ap)
 {
-    arg->x_content = (unsigned long)va_arg(*ap, long);
-    arg->content = ft_itoa_base_ull(arg->x_content, 8);
+	arg->x_content = (unsigned long)va_arg(*ap, long);
+	arg->content = ft_itoa_base_ull(arg->x_content, 8);
 	arg->content_len = ft_strlen(arg->content);
 }

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	processing_C(t_arg *arg, va_list *ap)
+void	processing_b_c(t_arg *arg, va_list *ap)
 {
 	int			byte;
 	wchar_t		buf;

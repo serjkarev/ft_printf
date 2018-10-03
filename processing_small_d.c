@@ -15,17 +15,21 @@
 void	processing_d(t_arg *arg, va_list *ap)
 {
 	d_processing_type(arg, ap);
-	if (arg->d_content == 0 && arg->width != 0 && arg->precision == 0 && !(arg->bitmap & ZERO))
+	if (arg->d_content == 0 && arg->width != 0 && arg->precision == 0 && \
+														!(arg->bitmap & ZERO))
 	{
 		free(arg->content);
 		arg->content = ft_strdup(" ");
 	}
-	else if (arg->d_content == 0 && arg->bitmap & PRECISION && arg->precision == 0)
+	else if (arg->d_content == 0 && arg->bitmap & PRECISION && \
+												arg->precision == 0)
 	{
 		free(arg->content);
 		arg->content = ft_strdup("");
 	}
-	else if (arg->d_content == 0 && arg->bitmap & ZERO && arg->bitmap & WIDTH && (arg->bitmap & PLUS || arg->bitmap & MINUS || arg->bitmap & SPACE))
+	else if (arg->d_content == 0 && arg->bitmap & ZERO && \
+	arg->bitmap & WIDTH && (arg->bitmap & PLUS || arg->bitmap & MINUS || \
+														arg->bitmap & SPACE))
 	{
 		free(arg->content);
 		arg->content = ft_strdup("0");
@@ -66,33 +70,28 @@ void	d_processing_precision(t_arg *arg)
 void	d_processing_flags(t_arg *arg)
 {
 	char	*buf;
-	char	*tmp = NULL;
+	char	*tmp;
 
 	if (arg->d_content >= 0)
 	{
-		buf = ft_strnew(arg->content_len + 1);
 		if (arg->bitmap & PLUS)
 		{
-			buf[0] = '+';
-			tmp = ft_strdup(buf);
-			free(buf);
-			buf = ft_strjoin(tmp, arg->content);
+			buf = "+";
+			tmp = ft_strjoin(buf, arg->content);
 			free(arg->content);
-			arg->content = ft_strdup(buf);
+			arg->content = ft_strdup(tmp);
 			arg->content_len += 1;
+			free(tmp);
 		}
 		else if (arg->bitmap & SPACE)
 		{
-			buf[0] = ' ';
-			tmp = ft_strdup(buf);
-			free(buf);
-			buf = ft_strjoin(tmp, arg->content);
+			buf = " ";
+			tmp = ft_strjoin(buf, arg->content);
 			free(arg->content);
-			arg->content = ft_strdup(buf);
+			arg->content = ft_strdup(tmp);
 			arg->content_len += 1;
+			free(tmp);
 		}
-		free(buf);
-		free(tmp);
 	}
 }
 

@@ -32,7 +32,7 @@ void	u_processing_type(t_arg *arg, va_list *ap)
 	else if (arg->bitmap & Z)
 		arg->x_content = va_arg(*ap, size_t);
 	else if (arg->bitmap & J)
-		arg->x_content = va_arg(*ap, unsigned long); //что за юинтмакс???
+		arg->x_content = va_arg(*ap, unsigned long);
 	else
 		arg->x_content = (unsigned int)va_arg(*ap, int);
 	if (arg->x_content == 0 && arg->precision == 0 && arg->bitmap & PRECISION)

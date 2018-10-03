@@ -20,19 +20,19 @@ void	invalid_conversion_specifier(t_arg *arg, const char *format, int *i)
 	if (arg->bitmap & MINUS)
 	{
 		write(1, &format[*i], 1);
-		while(arg->width--)
+		while (arg->width--)
 			write(1, " ", 1);
 	}
 	else
 	{
 		if (arg->bitmap & ZERO)
 		{
-			while(arg->width--)
+			while (arg->width--)
 				write(1, "0", 1);
 		}
 		else
 		{
-			while(arg->width--)
+			while (arg->width--)
 				write(1, " ", 1);
 		}
 		write(1, &format[*i], 1);

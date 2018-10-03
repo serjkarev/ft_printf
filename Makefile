@@ -33,7 +33,8 @@ SRCS = ft_printf.c \
 		processing_big_o.c \
 		processing_big_c.c \
 		proces_inv_conv_spec.c \
-		wildcard_processing.c
+		wildcard_processing.c \
+		dop_3.c dop_4.c dop_5.c 
 
 OBJS = $(SRCS:.c=.o)
 

@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-char			*ft_itoa_u(long long int n)
+
+char	*ft_itoa_u(long long int n)
 {
 	size_t	i;
 	size_t	n_size;

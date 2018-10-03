@@ -90,7 +90,9 @@ void				ft_swap(int *a, int *b);
 char				*ft_itoa_ll(long long n);
 size_t				ft_nbrlen_ll(long long n);
 char				*ft_itoa_u(long long n);
-char				*ft_itoa_base_ull(unsigned long long value, unsigned int base);
-char    			*ft_itoa_base_ull_big(unsigned long long value, unsigned int base);
-char    			*ft_itoa_base(int value, int base);
+char				*ft_itoa_base_ull(unsigned long long value, \
+															unsigned int base);
+char				*ft_itoa_base_ull_big(unsigned long long value, \
+															unsigned int base);
+char				*ft_itoa_base(int value, int base);
 #endif

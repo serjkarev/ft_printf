@@ -49,23 +49,11 @@ void	s_big_processing_width(t_arg *arg)
 	if (arg->bitmap & WIDTH)
 	{
 		if (arg->bitmap & ZERO)
-		{
-			while (len)
-			{
-				buf[i] = '0';
-				i++;
-				len -= 1;
-			}
-		}
+			while (len--)
+				buf[i++] = '0';
 		else
-		{
-			while (len)
-			{
-				buf[i] = ' ';
-				i++;
-				len -= 1;
-			}
-		}
+			while (len--)
+				buf[i++] = ' ';
 		arg->content = ft_strdup(buf);
 		arg->content_len = i;
 	}
@@ -107,7 +95,7 @@ void	print_unicode(t_arg *arg, int *buf)
 		arg->content_len = write(1, "(null)", 6);
 }
 
-void    s_big_processing_precision(t_arg *arg)
+void	s_big_processing_precision(t_arg *arg)
 {
 	if (arg->bitmap & WIDTH && arg->precision == 0 && arg->bitmap & PRECISION)
 	{

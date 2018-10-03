@@ -14,7 +14,7 @@
 
 void	parce_flag(int *i, t_arg *arg, const char *format)
 {
-	while(1)
+	while (1)
 	{
 		if (format[*i] == '#')
 			arg->bitmap = arg->bitmap | HESH;
@@ -27,7 +27,7 @@ void	parce_flag(int *i, t_arg *arg, const char *format)
 		else if (format[*i] == ' ')
 			arg->bitmap = arg->bitmap | SPACE;
 		else
-			break;
+			break ;
 		*i += 1;
 	}
 }
@@ -45,7 +45,7 @@ void	parce_width(int *i, t_arg *arg, const char *format, va_list *ap)
 	{
 		*i += 1;
 		arg->width = va_arg(*ap, int);
-	} 
+	}
 }
 
 void	parce_precision(int *i, t_arg *arg, const char *format, va_list *ap)
@@ -90,29 +90,21 @@ void	parce_length(int *i, t_arg *arg, const char *format)
 int		parce_type(int *i, t_arg *arg, const char *format)
 {
 	if (format[*i] == 'p' || format[*i] == 'i')
-		format[*i] == 'p' ? (arg->bitmap = arg->bitmap | P) : \
-							(arg->bitmap = arg->bitmap | I);
+		parce_helper_1(arg, format[*i]);
 	else if (format[*i] == 's' || format[*i] == 'S')
-		format[*i] == 's' ? (arg->bitmap = arg->bitmap | SMALL_S) : \
-							(arg->bitmap = arg->bitmap | BIG_S);
+		parce_helper_2(arg, format[*i]);
 	else if (format[*i] == 'd' || format[*i] == 'D')
-		format[*i] == 'd' ? (arg->bitmap = arg->bitmap | SMALL_D) : \
-							(arg->bitmap = arg->bitmap | BIG_D);
+		parce_helper_3(arg, format[*i]);
 	else if (format[*i] == 'o' || format[*i] == 'O')
-		format[*i] == 'o' ? (arg->bitmap = arg->bitmap | SMALL_O) : \
-							(arg->bitmap = arg->bitmap | BIG_O);
+		parce_helper_4(arg, format[*i]);
 	else if (format[*i] == 'u' || format[*i] == 'U')
-		format[*i] == 'u' ? (arg->bitmap = arg->bitmap | SMALL_U) : \
-							(arg->bitmap = arg->bitmap | BIG_U);
+		parce_helper_5(arg, format[*i]);
 	else if (format[*i] == 'x' || format[*i] == 'X')
-		format[*i] == 'x' ? (arg->bitmap = arg->bitmap | SMALL_X) : \
-							(arg->bitmap = arg->bitmap | BIG_X);
+		parce_helper_6(arg, format[*i]);
 	else if (format[*i] == 'c' || format[*i] == 'C')
-		format[*i] == 'c' ? (arg->bitmap = arg->bitmap | SMALL_C) : \
-							(arg->bitmap = arg->bitmap | BIG_C);
+		parce_helper_7(arg, format[*i]);
 	else if (format[*i] == '%' || format[*i] == 'b')
-		format[*i] == '%' ? (arg->bitmap = arg->bitmap | PERCENT) : \
-							(arg->bitmap = arg->bitmap | BINARY);
+		parce_helper_8(arg, format[*i]);
 	else
 	{
 		if (arg->bitmap & WIDTH)
@@ -121,5 +113,5 @@ int		parce_type(int *i, t_arg *arg, const char *format)
 	}
 	*i += 1;
 	arg->i = (int)*i;
-	return(1);
+	return (1);
 }

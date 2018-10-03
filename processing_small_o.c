@@ -20,7 +20,8 @@ void	processing_o(t_arg *arg, va_list *ap)
 		free(arg->content);
 		arg->content = ft_strdup(" ");
 	}
-	else if (arg->x_content == 0 && arg->bitmap & PRECISION && arg->precision == 0)
+	else if (arg->x_content == 0 && arg->bitmap & PRECISION && \
+													arg->precision == 0)
 	{
 		free(arg->content);
 		arg->content = ft_strdup("");
@@ -53,36 +54,20 @@ void	o_processing_type(t_arg *arg, va_list *ap)
 void	o_processing_precision(t_arg *arg)
 {
 	int		i;
-	int		len;
 	int		precision;
 	char	*buf;
-	char	*tmp;
-	char	*tmp2;
 
 	i = 0;
 	if (arg->precision != 0)
 	{
-		len = arg->content_len;
 		precision = arg->precision;
-		buf = ft_strnew(len + precision);
-		while (precision > len)
-		{
-			buf[i] = '0';
-			i++;
-			precision -= 1;
-		}
-		tmp = ft_strsub(arg->content, 0, arg->content_len);
-		tmp2 = ft_strdup(buf);
-		free(buf);
-		buf = ft_strjoin(tmp2, tmp);
-		free(arg->content);
-		arg->content = ft_strdup(buf);
-		arg->content_len = ft_strlen(arg->content);
-		free(buf);
-		free(tmp);
-		free(tmp2);
+		buf = ft_strnew(arg->content_len + precision);
+		while (precision-- > arg->content_len)
+			buf[i++] = '0';
+		fill_and_free(buf, arg);
 	}
-	else if (arg->x_content == 0 && arg->bitmap & PRECISION && arg->precision == 0 && arg->bitmap & HESH)
+	else if (arg->x_content == 0 && arg->bitmap & PRECISION && \
+							arg->precision == 0 && arg->bitmap & HESH)
 	{
 		free(arg->content);
 		arg->content = ft_strdup("0");
@@ -100,7 +85,8 @@ void	o_processing_flags(t_arg *arg)
 		arg->content = ft_strjoin("0", buf);
 		free(buf);
 	}
-	else if (arg->bitmap & HESH && arg->bitmap & WIDTH && !(arg->bitmap & PRECISION))
+	else if (arg->bitmap & HESH && arg->bitmap & WIDTH && \
+											!(arg->bitmap & PRECISION))
 	{
 		buf = ft_strdup(arg->content);
 		free(arg->content);
@@ -119,7 +105,7 @@ void	o_processing_width(t_arg *arg)
 		else if ((arg->bitmap & ZERO) && !(arg->bitmap & PRECISION))
 			zero_width(arg);
 		else
-			only_width(arg);	
+			only_width(arg);
 	}
 	arg->content_len = ft_strlen(arg->content);
 }

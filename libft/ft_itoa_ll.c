@@ -20,7 +20,7 @@ char	*ft_itoa_ll(long long n)
 
 	i = 0;
 	if (n < -9223372036854775807)
-		return (ft_strjoin("-","9223372036854775808"));//КОСТЫЫЫЛЬ
+		return (ft_strjoin("-", "9223372036854775808"));
 	n_size = ft_nbrlen_ll(n);
 	str = (char *)malloc(sizeof(char) * (n_size + 1));
 	if (!str)

@@ -14,13 +14,12 @@
 
 int		ft_printf(const char *format, ...)
 {
-	int			byte;
-	va_list		ap;
+	int		byte;
+	va_list	ap;
 
 	va_start(ap, format);
 	byte = start_parce(&ap, format);
 	va_end(ap);
-	// system("leaks -q a.out");
 	return (byte);
 }
 
@@ -52,7 +51,7 @@ int		start_parce(va_list *ap, const char *format)
 	return (len);
 }
 
-t_arg		*create_new_arg(void)
+t_arg	*create_new_arg(void)
 {
 	t_arg	*new_arg;
 
@@ -75,7 +74,6 @@ int		fill_arg(int *i, const char *format, t_arg *arg, va_list *ap)
 {
 	int		available_type;
 
-	available_type = 0;
 	arg->i = (int)*i;
 	*i += 1;
 	parce_flag(i, arg, format);
@@ -106,12 +104,7 @@ void	type_processing(t_arg *arg, va_list *ap)
 	if (arg->bitmap & SMALL_D || arg->bitmap & BIG_D)
 		arg->bitmap & SMALL_D ? processing_d(arg, ap) : processing_b_d(arg, ap);
 	else if (arg->bitmap & SMALL_S || arg->bitmap & BIG_S)
-	{
-		if (arg->bitmap & BIG_S || (arg->bitmap & SMALL_S && arg->bitmap & L))
-			processing_b_s(arg, ap);
-		else
-			processing_s(arg, ap);
-	}
+		helper_1(arg, ap);
 	else if (arg->bitmap & SMALL_O || arg->bitmap & BIG_O)
 		arg->bitmap & SMALL_O ? processing_o(arg, ap) : processing_b_o(arg, ap);
 	else if (arg->bitmap & SMALL_U || arg->bitmap & BIG_U)
@@ -119,12 +112,7 @@ void	type_processing(t_arg *arg, va_list *ap)
 	else if (arg->bitmap & SMALL_X || arg->bitmap & BIG_X)
 		arg->bitmap & SMALL_X ? processing_x(arg, ap) : processing_b_x(arg, ap);
 	else if (arg->bitmap & SMALL_C || arg->bitmap & BIG_C)
-	{
-		if (arg->bitmap & BIG_C || (arg->bitmap & SMALL_C && arg->bitmap & L))
-			processing_C(arg, ap);
-		else
-			processing_c(arg, ap);
-	}
+		helper_2(arg, ap);
 	else if (arg->bitmap & P || arg->bitmap & I)
 		arg->bitmap & P ? processing_p(arg, ap) : processing_i(arg, ap);
 	else if (arg->bitmap & PERCENT || arg->bitmap & BINARY)

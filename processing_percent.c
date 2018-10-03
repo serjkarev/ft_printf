@@ -33,19 +33,19 @@ void	percent_processing_type(t_arg *arg)
 void	percent_processing_width(t_arg *arg)
 {
 	if ((arg->width > arg->content_len) && arg->bitmap & WIDTH)
-	{        
+	{
 		if (arg->bitmap & MINUS)
 			minus_width_mod(arg);
 		else
 			only_width_mod(arg);
-		arg->content_len = ft_strlen(arg->content);         
+		arg->content_len = ft_strlen(arg->content);
 	}
 }
 
 void	percent_processing_flags(t_arg *arg)
 {
 	int		i;
-	
+
 	i = 0;
 	if ((arg->bitmap & ZERO) && !(arg->bitmap & MINUS))
 	{

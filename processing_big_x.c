@@ -42,12 +42,12 @@ void	x_big_processing_type(t_arg *arg, va_list *ap)
 	else if (arg->bitmap & Z)
 		arg->x_content = va_arg(*ap, size_t);
 	else if (arg->bitmap & J)
-		arg->x_content = va_arg(*ap, unsigned long);	
+		arg->x_content = va_arg(*ap, unsigned long);
 	else
 		arg->x_content = (unsigned int)va_arg(*ap, int);
 	if ((arg->x_content == 0 && arg->bitmap & PRECISION))
 		arg->non_valid = 228;
 	else
 		arg->content = ft_itoa_base_ull_big(arg->x_content, 16);
-	arg->content_len = ft_strlen(arg->content);	
+	arg->content_len = ft_strlen(arg->content);
 }
